@@ -1,0 +1,39 @@
+positions <-
+function(x, vectorL){ # This function is used notes at the grid of the domain of a joint density function
+  backwardNumber<-1
+  forwardNumber<-1
+  for(i in 1: length(vectorL)){
+    backwardNumber<-backwardNumber*vectorL[i]
+  }
+  backwardNumber<-backwardNumber/vectorL[1]
+  y1<-rep(x[1:vectorL[1]], each=backwardNumber)
+  
+  y<-y1
+  forwardNumber<- forwardNumber*vectorL[1]
+  if(length(vectorL)-2<=0){
+    y1<-rep(x[vectorL[length(vectorL)-1]+1:vectorL[length(vectorL)]], forwardNumber)
+    y<-cbind(y, y1)
+  }else
+  { a1<-0
+    b1<-0
+    for(i in 1:(length(vectorL)-2)){
+      backwardNumber<-backwardNumber/vectorL[i+1]
+      a1<-a1+vectorL[i]
+      b1<-a1+vectorL[i+1]
+      a<-a1+1
+      b<-b1
+      y1<-rep(x[a:b],each =backwardNumber)
+      y1<-rep(y1, forwardNumber )
+      forwardNumber<- forwardNumber*vectorL[i+1]
+      y<-cbind(y,y1)      
+    }
+    a1<-a1+vectorL[length(vectorL)-1]
+    b1<-a1+vectorL[length(vectorL)]
+    a<-a1+1
+    b<-b1
+    y1<-rep(x[a:b], forwardNumber)
+    y<-cbind(y, y1)
+  }   
+  
+  return(y)
+}

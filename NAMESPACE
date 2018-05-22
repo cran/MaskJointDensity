@@ -1,0 +1,3 @@
+exportPattern("^[[:alpha:]]+")
+import(ks,np,plyr,parallel,MASS,stats)
+importFrom("utils", "head")
